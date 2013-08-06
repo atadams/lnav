@@ -59,6 +59,60 @@
             }
         ]
     },
+    "iis_log" : {
+        "title" : "IIS Log",
+        "description" : "Web logs for IIS.",
+        "url" : "http://en.wikipedia.org/wiki/Common_Log_Format",
+        "regex" : [
+            "^(?<timestamp>\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2}:\\d{2}(?:\\.\\d{3})?) (?:[^ ]+ ){2}(?<cs_method>[A-Z]+) (?<cs_uri_stem>[^ \\?]+) (?<cs_uri_query>[^ ]*) (?<c_ip>[\\w\\.]+) (?:[^ ]+ )(?<cs_user_agent>[^ ]+) (?:[^ ]+ )(?<cs_referer>[^ ]+) (?:[^ ]+ )(?<sc_status>\\d+) (?<sc_bytes>\\d+|-).*"
+            ],
+        "level-field": "sc_status",
+        "level" : {
+            "error" : "^[^123]"
+            },
+        "value" : {
+            "c_ip" : {
+                "kind" : "string",
+                "collate" : "ipaddress",
+                "identifier" : true
+            },
+            "cs_method" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "cs_uri_stem" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "cs_uri_query" : {
+                "kind" : "string"
+            },
+            "cs_version" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "sc_status" : {
+                "kind" : "integer",
+                "foreign-key" : true
+            },
+            "sc_bytes" : {
+                "kind" : "integer"
+            },
+            "cs_referer" : {
+                "kind" : "string",
+                "identifier" : true
+            },
+            "cs_user_agent" : {
+                "kind" : "string",
+                "identifier" : true
+            }
+        },
+        "sample" : [
+            {
+                "line" : "2013-08-06 05:00:00 W3SVC19 172.29.3.69 GET /index.cfm/search-for-guides-reviews-and-reports/ agencytype=&methodcategory=&statustype=&producttypes=&search=&category=&pagenumber=11&trackid= 157.56.229.88 HTTP/1.1 Mozilla/5.0+(compatible;+bingbot/2.0;++http://www.bing.com/bingbot.htm) - - effectivehealthcare.ahrq.gov 403 1412 426 78"
+            }
+        ]
+    },
     "block_log" : {
         "title" : "Generic Block",
         "description" : "A generic format for logs, like cron, that have a date at the start of a block.",
